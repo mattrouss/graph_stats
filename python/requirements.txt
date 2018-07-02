@@ -1,0 +1,16 @@
+#db
+pymongo==3.2.0
+py2neo== 2.0.7
+
+python-igraph==0.7.1.post6
+pandas==0.18.1
+
+# dev
+jupyter==1.0.0
+
+#viz
+matplotlib
+
+#doc
+sphinx
+sphinx-autobuild
