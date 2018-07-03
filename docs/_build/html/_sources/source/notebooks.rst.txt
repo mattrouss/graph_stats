@@ -1,0 +1,30 @@
+notebooks package
+=================
+
+Submodules
+----------
+
+notebooks.stats module
+----------------------
+
+.. automodule:: notebooks.stats
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+notebooks.stats\_class module
+-----------------------------
+
+.. automodule:: notebooks.stats_class
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: notebooks
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -1,10 +1,9 @@
-from py2neo import Graph as PGraph, Node, authenticate, Relationship
+from py2neo import Graph, Node, authenticate, Relationship
 from igraph import Graph as IGraph, mean
 
-from metrique_stats.stats_class import *
+import metrique_stats.stats_class
 
 import pandas as pd
-
 
 
 def init_neo_graph():
@@ -15,9 +14,9 @@ def init_neo_graph():
     """
     #authenticate("http://simulab.li.kernix.net:7475", "dbse", "pass4dbse")
     #graph = PGraph("http://simulab.li.kernix.net:7475")
-    authenticate("http://neo:7474", "neo4j", "password")
-    graph = PGraph("http://neo:7474/db/data/")
-    
+    #authenticate("http://neo:7474", "neo4j", "password")
+    graph = Graph("http://neo4j:password@neo:7474")
+
     return graph
 
 
@@ -63,7 +62,7 @@ def degree_stats(graph):
         out_degrees = graph.outdegree()
         avg_out_degree = mean(out_degrees)
 
-        degreestats = DegreeStat(vertex_num=vertex_num, edge_num=edge_num,
+        degreestats = stats_class.DegreeStat(vertex_num=vertex_num, edge_num=edge_num,
                     degrees=degrees, max_degree=max_degree, avg_degree=avg_degree,
                     in_degrees=in_degrees, avg_in_degree=avg_in_degree,
                     out_degrees=out_degrees,avg_out_degree=avg_out_degree,directed=graph.is_directed())
@@ -73,7 +72,7 @@ def degree_stats(graph):
         avg_degree = mean(degrees)
         hist = graph.degree_distribution()
 
-        degreestats = DegreeStat(vertex_num=vertex_num, edge_num=edge_num,
+        degreestats = stats_class.DegreeStat(vertex_num=vertex_num, edge_num=edge_num,
                     degrees=degrees, max_degree=max_degree, avg_degree=avg_degree,
                      deg_hist=hist,directed=graph.is_directed())
 
@@ -101,7 +100,7 @@ def path_stats(graph):
     # Shortest paths
     shortest_paths = graph.shortest_paths()
 
-    pathstats = PathStat(path_length_hist, avg_path_length, shortest_paths)
+    pathstats = stats_class.PathStat(path_length_hist, avg_path_length, shortest_paths)
     return pathstats
 
 # Eccentricity statistics of graph
@@ -132,14 +131,14 @@ def ecc_stats(graph):
 
         diameter = graph.diameter(directed=True)
 
-        eccstats = EccStat(ecc, avg_ecc, in_ecc, avg_in_ecc, out_ecc, avg_out_ecc, in_radius, out_radius,graph.is_directed(), diameter )
+        eccstats = stats_class.EccStat(ecc, avg_ecc, in_ecc, avg_in_ecc, out_ecc, avg_out_ecc, in_radius, out_radius,graph.is_directed(), diameter )
 
 
     else:
         radius = graph.radius()
         diameter = graph.diameter(directed=False)
 
-        eccstats = EccStat(ecc, avg_ecc, directed=graph.is_directed(), diameter=diameter, radius=radius )
+        eccstats = stats_class.EccStat(ecc, avg_ecc, directed=graph.is_directed(), diameter=diameter, radius=radius )
 
     return eccstats
 
@@ -169,7 +168,7 @@ def connect_stats(graph):
     #Biconnectivity
     num_bi_components = len(graph.biconnected_components())
 
-    connectstats = ConnectStat(num_components, e_connect, v_connect, num_bi_components, graph.is_directed())
+    connectstats = stats_class.ConnectStat(num_components, e_connect, v_connect, num_bi_components, graph.is_directed())
     return connectstats
 
 
@@ -198,7 +197,7 @@ def cluster_stats(graph):
     clust_coeffs = graph.transitivity_local_undirected()
     clust_graph = graph.transitivity_undirected()
 
-    clusterstats = ClusterStat( num_triangles, num_clusters, clust_coeffs, clust_graph, directed=graph.is_directed())
+    clusterstats = stats_class.ClusterStat( num_triangles, num_clusters, clust_coeffs, clust_graph, directed=graph.is_directed())
     return clusterstats
 
 # Centrality statistics of graph
@@ -225,8 +224,8 @@ def central_stats(graph):
 
         in_closeness = graph.closeness(mode='IN')
         out_closeness =  graph.closeness(mode='OUT')
-        centralstats = CentralStat(closeness=closeness,between=between, directed=Directed, in_closeness=in_closeness, out_closeness=out_closeness)
+        centralstats = stats_class.CentralStat(closeness=closeness,between=between, directed=Directed, in_closeness=in_closeness, out_closeness=out_closeness)
     else:
-        centralstats = CentralStat(closeness, between, Directed)
+        centralstats = stats_class.CentralStat(closeness, between, Directed)
 
     return centralstats
