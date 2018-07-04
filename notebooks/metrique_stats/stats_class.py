@@ -160,10 +160,9 @@ class ConnectStat:
         print("Number of BiConnected Components = ", self.numbicomponents)
 
 class ClusterStat:
-    def __init__(self, num_triangles, num_clusters, clust_coeffs, clust_graph, directed=False):
+    def __init__(self, num_triangles, clust_coeffs, clust_graph, directed=False):
         self.is_directed = directed
         self.numtriangles = num_triangles
-        self.numclusters = num_clusters
         self.clustcoeffs = clust_coeffs
         self.clustgraph = clust_graph
 
@@ -172,13 +171,8 @@ class ClusterStat:
                 self.clustcoeffs[i] = -1
 
 
-
     def print(self):
         print("Number of triangles = ", self.numtriangles)
-        if self.is_directed:
-            print("Number of Strong Clusters = ", self.numclusters)
-        else:
-            print("Number of Clusters = ", self.numclusters)
 
         plt.figure(1)
         plt.hist(self.clustcoeffs, bins=30)

@@ -13,4 +13,15 @@ Diameter
 --------
 
   The **diameter** of a graph is the maximum eccentricity from all vertices in the graph.
-  
+
+Center
+------
+
+  The **center** of a graph is a vertex of minimum eccentricity.
+
+  .. figure:: images/Graphcenter.svg
+     :scale: 50 %
+     :alt: graph_center
+     :align: center
+
+     source : Wikipedia

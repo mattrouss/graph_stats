@@ -26,3 +26,6 @@ Clustering Coefficient
      :align: center
 
      source : Wikipedia
+
+  The **local** clustering coefficient of a vertex in a graph quantifies
+  how close its neighbors are to being a clique. 

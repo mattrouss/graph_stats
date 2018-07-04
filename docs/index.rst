@@ -18,17 +18,24 @@ This is where the guide starts:
 
   >>> this is a test
 
+Reference Implementation
+^^^^^^^^^^^^^^^^^^^^^^^^
 .. toctree::
    :maxdepth: 2
-   :caption: Definitions:
+
+   source/metrique_stats
+
+Definitions
+^^^^^^^^^^^
+
+.. toctree::
+   :maxdepth: 2
 
    definitions/degrees
-   definitions/eccentricity
+   definitions/centrality
    definitions/cluster
-
-
-
-
+   definitions/connectivity
+   definitions/eccentricity
 
 
 Indices and tables

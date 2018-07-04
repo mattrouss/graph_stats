@@ -6,25 +6,40 @@ import metrique_stats.stats_class
 import pandas as pd
 
 
-def init_neo_graph():
+def init_neo_graph(uri, user=None, password=None):
     """
-
     Returns the Neo4j graph of the default database
+    
+    Args :
+        uri - URI of the Neo4j database
+        user - username (optionnal) for authentication
+        password - password (optionnal) for authentication
+        
+    Returns :
+        graph - py2neo Graph Object
 
     """
-    #authenticate("http://simulab.li.kernix.net:7475", "dbse", "pass4dbse")
-    #graph = PGraph("http://simulab.li.kernix.net:7475")
-    #authenticate("http://neo:7474", "neo4j", "password")
-    graph = Graph("http://neo4j:password@neo:7474")
-
+    #Use own neo container without authentication
+    #g = Graph("http://neo:7474/db/data")
+    if user:
+        authenticate(uri, user, password)
+        uri = uri[7:]
+        graph = Graph("http://" + user + ":" + password + "@" + uri + "/db/data/")
+    else:
+        graph = Graph(uri)
+        
     return graph
 
 
 def neo_to_igraph(query, graph, directed=False):
 
     """
-
     Returns an igraph graph converted from a neo4j subgraph obtained by query.
+    
+    Args :
+        query - query for selection of vertices in graph
+        graph - a py2neo Graph object
+        directed - True if the graph is directed, False if not
 
     """
 
@@ -62,7 +77,7 @@ def degree_stats(graph):
         out_degrees = graph.outdegree()
         avg_out_degree = mean(out_degrees)
 
-        degreestats = stats_class.DegreeStat(vertex_num=vertex_num, edge_num=edge_num,
+        degreestats = metrique_stats.stats_class.DegreeStat(vertex_num=vertex_num, edge_num=edge_num,
                     degrees=degrees, max_degree=max_degree, avg_degree=avg_degree,
                     in_degrees=in_degrees, avg_in_degree=avg_in_degree,
                     out_degrees=out_degrees,avg_out_degree=avg_out_degree,directed=graph.is_directed())
@@ -72,7 +87,7 @@ def degree_stats(graph):
         avg_degree = mean(degrees)
         hist = graph.degree_distribution()
 
-        degreestats = stats_class.DegreeStat(vertex_num=vertex_num, edge_num=edge_num,
+        degreestats = metrique_stats.stats_class.DegreeStat(vertex_num=vertex_num, edge_num=edge_num,
                     degrees=degrees, max_degree=max_degree, avg_degree=avg_degree,
                      deg_hist=hist,directed=graph.is_directed())
 
@@ -100,7 +115,7 @@ def path_stats(graph):
     # Shortest paths
     shortest_paths = graph.shortest_paths()
 
-    pathstats = stats_class.PathStat(path_length_hist, avg_path_length, shortest_paths)
+    pathstats = metrique_stats.stats_class.PathStat(path_length_hist, avg_path_length, shortest_paths)
     return pathstats
 
 # Eccentricity statistics of graph
@@ -131,14 +146,14 @@ def ecc_stats(graph):
 
         diameter = graph.diameter(directed=True)
 
-        eccstats = stats_class.EccStat(ecc, avg_ecc, in_ecc, avg_in_ecc, out_ecc, avg_out_ecc, in_radius, out_radius,graph.is_directed(), diameter )
+        eccstats = metrique_stats.stats_class.EccStat(ecc, avg_ecc, in_ecc, avg_in_ecc, out_ecc, avg_out_ecc, in_radius, out_radius,graph.is_directed(), diameter )
 
 
     else:
         radius = graph.radius()
         diameter = graph.diameter(directed=False)
 
-        eccstats = stats_class.EccStat(ecc, avg_ecc, directed=graph.is_directed(), diameter=diameter, radius=radius )
+        eccstats = metrique_stats.stats_class.EccStat(ecc, avg_ecc, directed=graph.is_directed(), diameter=diameter, radius=radius )
 
     return eccstats
 
@@ -168,7 +183,7 @@ def connect_stats(graph):
     #Biconnectivity
     num_bi_components = len(graph.biconnected_components())
 
-    connectstats = stats_class.ConnectStat(num_components, e_connect, v_connect, num_bi_components, graph.is_directed())
+    connectstats = metrique_stats.stats_class.ConnectStat(num_components, e_connect, v_connect, num_bi_components, graph.is_directed())
     return connectstats
 
 
@@ -187,17 +202,12 @@ def cluster_stats(graph):
     """
     num_triangles = len(graph.cliques(min=3, max=3))
 
-    if graph.is_directed():
-        num_clusters = len(graph.clusters(mode='STRONG'))
-    else :
-        num_clusters = len(graph.clusters(mode='WEAK'))
-
     #Clustering Coefficient : probability that 2 neighbors of a vertex are connected.
 
     clust_coeffs = graph.transitivity_local_undirected()
     clust_graph = graph.transitivity_undirected()
 
-    clusterstats = stats_class.ClusterStat( num_triangles, num_clusters, clust_coeffs, clust_graph, directed=graph.is_directed())
+    clusterstats = metrique_stats.stats_class.ClusterStat( num_triangles, clust_coeffs, clust_graph, directed=graph.is_directed())
     return clusterstats
 
 # Centrality statistics of graph
@@ -224,8 +234,8 @@ def central_stats(graph):
 
         in_closeness = graph.closeness(mode='IN')
         out_closeness =  graph.closeness(mode='OUT')
-        centralstats = stats_class.CentralStat(closeness=closeness,between=between, directed=Directed, in_closeness=in_closeness, out_closeness=out_closeness)
+        centralstats = metrique_stats.stats_class.CentralStat(closeness=closeness,between=between, directed=Directed, in_closeness=in_closeness, out_closeness=out_closeness)
     else:
-        centralstats = stats_class.CentralStat(closeness, between, Directed)
+        centralstats = metrique_stats.stats_class.CentralStat(closeness, between, Directed)
 
     return centralstats

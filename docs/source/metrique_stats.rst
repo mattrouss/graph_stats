@@ -1,9 +1,6 @@
 metrique\_stats package
 =======================
 
-Submodules
-----------
-
 metrique\_stats.stats module
 ----------------------------
 

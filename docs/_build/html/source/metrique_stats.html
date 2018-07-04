@@ -15,6 +15,8 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Degree" href="../definitions/degrees.html" />
+    <link rel="prev" title="Simple statistics on graphs" href="../index.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -33,9 +35,6 @@
             
   <div class="section" id="metrique-stats-package">
 <h1>metrique_stats package<a class="headerlink" href="#metrique-stats-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
-</div>
 <div class="section" id="module-metrique_stats.stats">
 <span id="metrique-stats-stats-module"></span><h2>metrique_stats.stats module<a class="headerlink" href="#module-metrique_stats.stats" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
@@ -100,14 +99,28 @@
 
 <dl class="function">
 <dt id="metrique_stats.stats.init_neo_graph">
-<code class="descclassname">metrique_stats.stats.</code><code class="descname">init_neo_graph</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#metrique_stats.stats.init_neo_graph" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">metrique_stats.stats.</code><code class="descname">init_neo_graph</code><span class="sig-paren">(</span><em>uri</em>, <em>user=None</em>, <em>password=None</em><span class="sig-paren">)</span><a class="headerlink" href="#metrique_stats.stats.init_neo_graph" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the Neo4j graph of the default database</p>
+<dl class="docutils">
+<dt>Args :</dt>
+<dd>uri - URI of the Neo4j database
+user - username (optionnal) for authentication
+password - password (optionnal) for authentication</dd>
+<dt>Returns :</dt>
+<dd>graph - py2neo Graph Object</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="metrique_stats.stats.neo_to_igraph">
 <code class="descclassname">metrique_stats.stats.</code><code class="descname">neo_to_igraph</code><span class="sig-paren">(</span><em>query</em>, <em>graph</em>, <em>directed=False</em><span class="sig-paren">)</span><a class="headerlink" href="#metrique_stats.stats.neo_to_igraph" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns an igraph graph converted from a neo4j subgraph obtained by query.</p>
+<dl class="docutils">
+<dt>Args :</dt>
+<dd>query - query for selection of vertices in graph
+graph - a py2neo Graph object
+directed - True if the graph is directed, False if not</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
@@ -135,7 +148,6 @@
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">metrique_stats package</a><ul>
-<li><a class="reference internal" href="#submodules">Submodules</a></li>
 <li><a class="reference internal" href="#module-metrique_stats.stats">metrique_stats.stats module</a></li>
 </ul>
 </li>
@@ -144,6 +156,8 @@
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../index.html" title="previous chapter">Simple statistics on graphs</a></li>
+      <li>Next: <a href="../definitions/degrees.html" title="next chapter">Degree</a></li>
   </ul></li>
 </ul>
 </div>
